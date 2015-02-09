@@ -78,6 +78,7 @@
 #include <sys/stat.h>
 #include <sys/ioctl.h>
 #include <sys/termios.h>
+#include <sys/prctl.h>
 
 #include <assert.h>
 #include <errno.h>
@@ -98,6 +99,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <getopt.h>
+
+#include <parsec/parsec_integration.h>
+#include <parsec/parsec_mac.h>
 
 #ifdef HAVE_ERROR_H
 #include <error.h>
@@ -174,6 +178,7 @@ static char what_stop[1024];
 static const char *progname = "";
 static int nicelevel = 0;
 static int umask_value = -1;
+static int capability = 0;
 
 #define IOPRIO_CLASS_SHIFT 13
 #define IOPRIO_PRIO_VALUE(class, prio) (((class) << IOPRIO_CLASS_SHIFT) | (prio))
@@ -818,6 +823,7 @@ parse_options(int argc, char * const *argv)
 		{ "make-pidfile", 0, NULL, 'm'},
 		{ "retry",	  1, NULL, 'R'},
 		{ "chdir",	  1, NULL, 'd'},
+		{ "capability",   1, NULL, 'l'},
 		{ NULL,		  0, NULL, 0  }
 	};
 	const char *umask_str = NULL;
@@ -829,7 +835,7 @@ parse_options(int argc, char * const *argv)
 
 	for (;;) {
 		c = getopt_long(argc, argv,
-		                "HKSVTa:n:op:qr:s:tu:vx:c:N:P:I:k:bCmR:g:d:",
+		                "HKSVTa:n:op:qr:s:tu:vx:c:N:P:I:k:bCmR:g:d:l:",
 		                longopts, NULL);
 		if (c == -1)
 			break;
@@ -918,6 +924,9 @@ parse_options(int argc, char * const *argv)
 			break;
 		case 'd':  /* --chdir /new/dir */
 			changedir = optarg;
+			break;
+		case 'l':  /* --capability <capabilities> */
+			capability = strtol(optarg, NULL, 0);
 			break;
 		default:
 			/* Message printed by getopt. */
@@ -1627,6 +1636,53 @@ run_stop_schedule(void)
 	return 2;
 }
 
+static bool
+check_privsock_conf(void)
+{
+    FILE *fp;
+    char *line = NULL;
+    size_t len = 0;
+    ssize_t read;
+    char *s;
+    char *t;
+    bool match;
+
+    fp = fopen("/etc/parsec/privsock.conf", "r");
+    if (fp == NULL)
+        exit(EXIT_FAILURE);
+
+    while ((read = getline(&line, &len, fp)) != -1) {
+        // trim line
+        s = line;
+        while(isspace(*s)) ++s;
+        t = line + strlen(line);
+        while(isspace(*--t));
+        *++t = '\0';
+
+        match = strcmp(s, startas) == 0;
+
+        free(line);
+        len = 0;
+
+        if (match)
+            return true;
+    }
+
+    return false;
+}
+
+static void
+set_proc_pcaps(void)
+{
+    linux_caps_t lcaps={0,0,0};
+    parsec_caps_t pcaps = {capability,capability,capability};
+
+    parsec_linux_capget(0, &lcaps);
+
+    if(parsec_cur_caps_set(&lcaps,&pcaps) < 0)
+        fatal("unable to set capabilities");
+}
+
 int
 main(int argc, char **argv)
 {
@@ -1770,6 +1826,20 @@ main(int argc, char **argv)
 	}
 	if (chdir(changedir) < 0)
 		fatal("unable to chdir() to %s", changedir);
+
+
+    if (!capability)
+        if (check_privsock_conf())
+            capability = PARSEC_CAP_TO_MASK(PARSEC_CAP_PRIV_SOCK);
+
+    if(capability)
+    {
+        if (changeuser != NULL)
+            if(prctl(PR_SET_KEEPCAPS, 1) == -1)
+                fatal("unable to set PR_SET_KEEPCAPS");
+
+        set_proc_pcaps();
+    }
 
 	rgid = getgid();
 	ruid = getuid();
