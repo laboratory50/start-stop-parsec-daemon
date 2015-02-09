@@ -5871,6 +5871,86 @@ if test "x$ac_cv_lib_kvm_kvm_openfiles" = xyes; then :
   SSD_LIBS="${SSD_LIBS:+$SSD_LIBS }-lkvm"
 fi
 
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for parsec_cur_caps_set in -lparsec-base" >&5
+$as_echo_n "checking for parsec_cur_caps_set in -lparsec-base... " >&6; }
+if ${ac_cv_lib_parsec_base_parsec_cur_caps_set+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lparsec-base  $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char parsec_cur_caps_set ();
+int
+main ()
+{
+return parsec_cur_caps_set ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  ac_cv_lib_parsec_base_parsec_cur_caps_set=yes
+else
+  ac_cv_lib_parsec_base_parsec_cur_caps_set=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_parsec_base_parsec_cur_caps_set" >&5
+$as_echo "$ac_cv_lib_parsec_base_parsec_cur_caps_set" >&6; }
+if test "x$ac_cv_lib_parsec_base_parsec_cur_caps_set" = xyes; then :
+  SSD_LIBS="${SSD_LIBS:+$SSD_LIBS }-lparsec-base"
+fi
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for parsec_linux_capget in -lparsec-cap" >&5
+$as_echo_n "checking for parsec_linux_capget in -lparsec-cap... " >&6; }
+if ${ac_cv_lib_parsec_cap_parsec_linux_capget+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lparsec-cap  $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char parsec_linux_capget ();
+int
+main ()
+{
+return parsec_linux_capget ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  ac_cv_lib_parsec_cap_parsec_linux_capget=yes
+else
+  ac_cv_lib_parsec_cap_parsec_linux_capget=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_parsec_cap_parsec_linux_capget" >&5
+$as_echo "$ac_cv_lib_parsec_cap_parsec_linux_capget" >&6; }
+if test "x$ac_cv_lib_parsec_cap_parsec_linux_capget" = xyes; then :
+  SSD_LIBS="${SSD_LIBS:+$SSD_LIBS }-lparsec-cap"
+fi
+
 
 
 # Checks for header files.

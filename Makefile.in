@@ -71,9 +71,12 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(sbindir)"
 PROGRAMS = $(bin_PROGRAMS) $(sbin_PROGRAMS)
-start_stop_parsec_daemon_SOURCES = start-stop-parsec-daemon.c
-start_stop_parsec_daemon_OBJECTS = start-stop-parsec-daemon.$(OBJEXT)
-start_stop_parsec_daemon_LDADD = $(LDADD)
+am_start_stop_parsec_daemon_OBJECTS =  \
+	start-stop-parsec-daemon.$(OBJEXT)
+start_stop_parsec_daemon_OBJECTS =  \
+	$(am_start_stop_parsec_daemon_OBJECTS)
+am__DEPENDENCIES_1 =
+start_stop_parsec_daemon_DEPENDENCIES = $(am__DEPENDENCIES_1)
 DEFAULT_INCLUDES = 
 depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
 am__depfiles_maybe = depfiles
@@ -94,8 +97,8 @@ am__v_CCLD_0 = @echo "  CCLD  " $@;
 AM_V_GEN = $(am__v_GEN_@AM_V@)
 am__v_GEN_ = $(am__v_GEN_@AM_DEFAULT_V@)
 am__v_GEN_0 = @echo "  GEN   " $@;
-SOURCES = start-stop-parsec-daemon.c
-DIST_SOURCES = start-stop-parsec-daemon.c
+SOURCES = $(start_stop_parsec_daemon_SOURCES)
+DIST_SOURCES = $(start_stop_parsec_daemon_SOURCES)
 RECURSIVE_TARGETS = all-recursive check-recursive dvi-recursive \
 	html-recursive info-recursive install-data-recursive \
 	install-dvi-recursive install-exec-recursive \
@@ -252,8 +255,8 @@ top_srcdir = @top_srcdir@
 SUBDIRS = man
 ACLOCAL_AMFLAGS = -I m4
 AM_CPPFLAGS = -I$(top_builddir)
-start_stop_daemon_SOURCES = start-stop-parsec-daemon.c
-start_stop_daemon_LDADD = $(SSD_LIBS)
+start_stop_parsec_daemon_SOURCES = start-stop-parsec-daemon.c
+start_stop_parsec_daemon_LDADD = $(SSD_LIBS)
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 

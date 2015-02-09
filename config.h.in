@@ -9,9 +9,6 @@
 /* Define to 1 if the compiler supports C99. */
 #undef HAVE_C99
 
-/* Define to 1 if the 'snprintf' family is C99 conformant */
-#undef HAVE_C99_SNPRINTF
-
 /* Define to 1 if you have the declaration of `strnlen', and to 0 if you
    don't. */
 #undef HAVE_DECL_STRNLEN
@@ -43,12 +40,6 @@
 
 /* Define to 1 if you have the <libintl.h> header file. */
 #undef HAVE_LIBINTL_H
-
-/* Define to 1 if you have the <linux/fiemap.h> header file. */
-#undef HAVE_LINUX_FIEMAP_H
-
-/* Define to 1 if you have the <locale.h> header file. */
-#undef HAVE_LOCALE_H
 
 /* Define to 1 if you have the `memcpy' function. */
 #undef HAVE_MEMCPY
@@ -112,9 +103,6 @@
 
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
-
-/* Define to 1 if the 'va_copy' macro exists */
-#undef HAVE_VA_COPY
 
 /* Define to 1 if 'WCOREDUMP' is declared in <sys/wait.h> */
 #undef HAVE_WCOREDUMP
