@@ -4,7 +4,8 @@ Priority: optional
 Maintainer: Лаборатория 50 <team@lab50.net>
 Homepage: http://lab50.net
 Standards-Version: 3.9.3
-Build-Depends: debhelper (>= 7), pkg-config
+Build-Depends: debhelper (>= 7), pkg-config, libparsec-base2-dev,
+               libparsec-mac2-dev
 
 Package: parsec-daemon
 Architecture: any
