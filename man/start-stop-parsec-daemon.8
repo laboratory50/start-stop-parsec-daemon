@@ -21,7 +21,7 @@
 .\" You should have received a copy of the GNU General Public License
 .\" along with this program.  If not, see <http://www.gnu.org/licenses/>.
 .
-.TH start\-stop\-parsec\-daemon 8 "2015-02-04" "Laboratory 50" "utilities"
+.TH start\-stop\-parsec\-daemon 8 "2015-04-30" "Лаборатория 50" "utilities"
 .SH NAME
 start\-stop\-parsec\-daemon \- start and stop system daemon programs
 .
@@ -220,6 +220,14 @@ groups that the user isn't normally a member of (like adding per process
 group membership for generic users like
 .BR nobody ).
 .TP
+.BR \-l ", " \-\-capability " \fIint\fP"
+Set Astra Linux PARSEC capability of the process before starting it. The
+capability is integer that can combines several PARSEC capabilities. In
+case of \fBPRIVSOCK\fP is specified (0x100) executable also should be
+presented in
+.B /etc/parsec/privsock.conf
+file.
+.TP
 .BR \-r ", " \-\-chroot " \fIroot\fP"
 Chdir and chroot to
 .I root
@@ -338,8 +346,8 @@ food, running as user food, with pid in food.pid):
 .IP
 .nf
 start\-stop\-parsec\-daemon \-\-start \-\-oknodo \-\-user food \-\-name food \\
-	\-\-pidfile /run/food.pid \-\-startas /usr/sbin/food \\
-	\-\-chuid food \-\- \-\-daemon
+	\-\-capability 0x100 \-\-pidfile /run/food.pid \\
+	\-\-startas /usr/sbin/food \-\-chuid food \-\- \-\-daemon
 .fi
 .PP
 Send \fBSIGTERM\fP to \fBfood\fP and wait up to 5 seconds for it to stop:
