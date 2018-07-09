@@ -2,16 +2,17 @@ Source: start-stop-parsec-daemon
 Section: admin
 Priority: optional
 Maintainer: Лаборатория 50 <team@lab50.net>
-Homepage: http://lab50.net
+Build-Depends: debhelper (>= 8), pkg-config, dh-autoreconf,
+ libparsec-base2-dev,
+ libparsec-mac2-dev
 Standards-Version: 3.9.3
-Build-Depends: debhelper (>= 7), pkg-config, libparsec-base2-dev,
-               libparsec-mac2-dev
+Homepage: http://lab50.net
 
 Package: parsec-daemon
 Architecture: any
-Depends: ${misc:Depends}
-Description: Debian package management system
- This package provides the low-level infrastructure for handling the
- installation and removal of Debian software packages.
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: PARSEC-compatible daemon management system
+ start-stop-parsec-daemon is used to control the creation and
+ termination of system-level processes.
  .
- For Debian package development tools, install dpkg-dev.
+ For standard Debian package development tools, install dpkg.
